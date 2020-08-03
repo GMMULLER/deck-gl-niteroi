@@ -3,7 +3,7 @@ module.exports = app => {
     //app.route('/api/test')
      //   .get(controller.test);
 
-    app.get('/map', (req, resp) => {
+    app.get('/', (req, resp) => {
         resp.sendFile("map.html",{
             root: "./src/public",
         });
