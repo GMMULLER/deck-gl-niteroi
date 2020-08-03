@@ -19,6 +19,29 @@
           height: 100vh;
           margin: 0;
         }
+
+        #apd{
+            width: 20px;
+            height: 20px;
+            background-color: #6bf2e0;
+        }
+
+        #rmdef{
+            width: 20px;
+            height: 20px;
+            background-color: green;
+        }
+
+        #legenda {
+            position: absolute;
+            background: #fff;
+            top: 0;
+            left: 0;
+            margin: 12px;
+            padding: 20px;
+            z-index: 1;
+        }
+
     </style>
     
 </head>
@@ -26,6 +49,20 @@
 <body>
 
     <script src='deckgl.js'></script>
+
+    <div id="legenda">
+        <div>
+          <label>Área de Proteção Permanente de Declividade</label>
+          <div id="apd" ></div>
+        </div>
+        <div>
+          <label>Rede de monitoramento da Defesa Civil</label>
+          <div id="rmdef" ></div>
+        </div>
+    </div>
+      
+      
+
 
 </body>
 

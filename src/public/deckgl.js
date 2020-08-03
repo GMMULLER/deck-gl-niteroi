@@ -15,7 +15,7 @@ const areaProtPermDec = new GeoJsonLayer({
   pickable: true,
   stroked: false,
   wireframe: true,
-  getLineColor: [255, 255, 255]
+  getFillColor: [107, 242, 224]
 });
 
 const deckgl = new DeckGL({
