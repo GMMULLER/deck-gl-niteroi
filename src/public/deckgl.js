@@ -14,13 +14,8 @@ const areaProtPermDec = new GeoJsonLayer({
   opacity: 0.8,
   pickable: true,
   stroked: false,
-  //extruded: true,
   wireframe: true,
   getLineColor: [255, 255, 255]
-});
-
-d3.json('https://opendata.arcgis.com/datasets/36e4cfc1af174323b162b0716cc386fe_35.geojson', function(data){
-  console.log(data);
 });
 
 const deckgl = new DeckGL({
