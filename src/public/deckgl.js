@@ -9,13 +9,17 @@ const redeMonitoramentoDefCiv = new GeoJsonLayer({
 
 });
 
+// d3.json('https://opendata.arcgis.com/datasets/36e4cfc1af174323b162b0716cc386fe_35.geojson', function(data){
+//   console.log(data);
+// });
+
 const areaProtPermDec = new GeoJsonLayer({
   data: 'https://opendata.arcgis.com/datasets/36e4cfc1af174323b162b0716cc386fe_35.geojson',
   opacity: 0.8,
   pickable: true,
-  stroked: false,
-  wireframe: true,
-  getFillColor: [107, 242, 224]
+  stroked: true,
+  getFillColor: [107, 242, 224],
+  getLineColor: [255, 0, 0]
 });
 
 const deckgl = new DeckGL({
@@ -27,11 +31,16 @@ const deckgl = new DeckGL({
     zoom: 14,
     minZoom: 13,
     maxZoom: 17,
-    pitch: 40.5
+    pitch: 0 //40.5
   },
   controller: true,
   layers: [
     redeMonitoramentoDefCiv,
     areaProtPermDec
-  ]
+  ],
+  getTooltip
 });
+
+function getTooltip({object}){
+  return object && `OBJECTID: ${object.properties.OBJECTID}`;
+}
