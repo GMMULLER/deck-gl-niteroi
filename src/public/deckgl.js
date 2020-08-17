@@ -1,6 +1,10 @@
 const {DeckGL, ScatterplotLayer, GeoJsonLayer} = deck;
 
+var dataset = d3.json('https://opendata.arcgis.com/datasets/36e4cfc1af174323b162b0716cc386fe_35.geojson'); //returns a promisse
+var last_objectid_selected = 1;
+
 const redeMonitoramentoDefCiv = new GeoJsonLayer({
+  id: 'redeMDC',
   data: 'https://opendata.arcgis.com/datasets/d49e031924a14c24a2ba5c2ed314fb4d_85.geojson',
   opacity: 1,
   pointRadiusMinPixels: 6,
@@ -9,17 +13,15 @@ const redeMonitoramentoDefCiv = new GeoJsonLayer({
 
 });
 
-// d3.json('https://opendata.arcgis.com/datasets/36e4cfc1af174323b162b0716cc386fe_35.geojson', function(data){
-//   console.log(data);
-// });
-
 const areaProtPermDec = new GeoJsonLayer({
+  id: 'areaPPD',
   data: 'https://opendata.arcgis.com/datasets/36e4cfc1af174323b162b0716cc386fe_35.geojson',
   opacity: 0.8,
   pickable: true,
   stroked: true,
   getFillColor: [107, 242, 224],
-  getLineColor: [255, 0, 0]
+  getLineColor: [255, 0, 0],
+  onClick: (info, event) => reloadBarChart(info.object.properties.OBJECTID)
 });
 
 const deckgl = new DeckGL({
@@ -43,4 +45,9 @@ const deckgl = new DeckGL({
 
 function getTooltip({object}){
   return object && `OBJECTID: ${object.properties.OBJECTID}`;
+}
+
+function reloadBarChart(OBJECTID){
+  last_objectid_selected = OBJECTID;
+  dataset.then(plotBarChart);
 }

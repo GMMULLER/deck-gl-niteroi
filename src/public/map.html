@@ -7,8 +7,8 @@
     
     <script src="https://unpkg.com/deck.gl@latest/dist.min.js"></script>
     <script src="https://api.mapbox.com/mapbox-gl-js/v1.11.1/mapbox-gl.js"></script>
-    <script src="https://d3js.org/d3.v4.min.js"></script>
-
+    <!-- <script src="https://d3js.org/d3.v4.min.js"></script> -->
+    <script src="https://d3js.org/d3.v5.min.js"></script>
     <link href="https://api.mapbox.com/mapbox-gl-js/v1.11.1/mapbox-gl.css" rel="stylesheet" />
     
     <title>Display a map</title>
@@ -42,6 +42,14 @@
             z-index: 1;
         }
 
+        #barchart{
+            width: 100vw;
+            height: 100vh;
+            z-index: 1;
+            pointer-events: none;
+            position: absolute;
+        }
+
     </style>
     
 </head>
@@ -61,8 +69,9 @@
         </div>
     </div>
       
-      
+    <div id="barchart" class="svg-container"></div>
 
+    <script src='barChart.js'></script>
 
 </body>
 
