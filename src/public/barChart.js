@@ -8,7 +8,7 @@ var svg = d3.select("div#barchart").append("svg")
 
 
 var barWidth = 10;
-var areas_to_draw = 50;
+var areas_to_draw = 80;
 
 dataset.then(plotBarChart); //When the promisse is resolved
 
@@ -86,5 +86,6 @@ function plotBarChart(data){
             return 2*height - yScale(d.properties.shape_area_m2) - 5;
         })
         // .attr("width", barWidth)
-        .text( function(d) {return d.properties.OBJECTID} );
+        .text( function(d) {return d.properties.OBJECTID} )
+        .attr("fill", "rgb(255, 255, 255)");
 }
