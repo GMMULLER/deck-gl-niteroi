@@ -87,5 +87,7 @@ function plotBarChart(data){
         })
         // .attr("width", barWidth)
         .text( function(d) {return d.properties.OBJECTID} )
-        .attr("fill", "rgb(255, 255, 255)");
+        .attr("fill", "rgb(255, 255, 255)")
+        .attr("textLength", xScale.bandwidth())
+        .attr("lengthAdjust", "spacingAndGlyphs");
 }
