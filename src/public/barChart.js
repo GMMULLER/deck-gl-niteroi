@@ -10,7 +10,7 @@ var svg = d3.select("div#barchart").append("svg")
 var barWidth = 10;
 var areas_to_draw = 80;
 
-dataset.then(plotBarChart); //When the promisse is resolved
+//dataset.then(plotBarChart); //When the promisse is resolved
 
 function plotBarChart(data){
     close_areas = [];//Seleciona 86 terrenos mais proximos do ultimo selecionado

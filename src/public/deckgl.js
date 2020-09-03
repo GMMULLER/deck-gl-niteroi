@@ -13,16 +13,16 @@ const redeMonitoramentoDefCiv = new GeoJsonLayer({
 
 });
 
-const areaProtPermDec = new GeoJsonLayer({
-  id: 'areaPPD',
-  data: 'https://opendata.arcgis.com/datasets/36e4cfc1af174323b162b0716cc386fe_35.geojson',
-  opacity: 0.8,
-  pickable: true,
-  stroked: true,
-  getFillColor: [107, 242, 224],
-  getLineColor: [255, 0, 0],
-  onClick: (info, event) => reloadBarChart(info.object.properties.OBJECTID)
-});
+// const areaProtPermDec = new GeoJsonLayer({
+//   id: 'areaPPD',
+//   data: 'https://opendata.arcgis.com/datasets/36e4cfc1af174323b162b0716cc386fe_35.geojson',
+//   opacity: 0.8,
+//   pickable: true,
+//   stroked: true,
+//   getFillColor: [107, 242, 224],
+//   getLineColor: [255, 0, 0],
+//   onClick: (info, event) => reloadBarChart(info.object.properties.OBJECTID)
+// });
 
 const deckgl = new DeckGL({
   mapboxApiAccessToken: 'pk.eyJ1IjoiZ21tb3JlaXJhIiwiYSI6ImNrZDlnbmJrODBlY2cyc3NnazVscjJwcDgifQ.WNhHLBY6bfT9Ud-uaIQX3w',
@@ -38,7 +38,7 @@ const deckgl = new DeckGL({
   controller: true,
   layers: [
     redeMonitoramentoDefCiv,
-    areaProtPermDec
+    // areaProtPermDec
   ],
   getTooltip
 });
