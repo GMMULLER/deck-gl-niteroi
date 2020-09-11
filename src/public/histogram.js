@@ -1,4 +1,33 @@
-dataset.then(plotHistogram);
+// var inputHistogram = d3.select("input#histogram");
+
+d3.select("input#histogram").on("click", function(){
+    dataset.then(plotHistogram);
+});
+
+var finalBinPercent = 80;
+var inicialBinPercent = 20;
+var binNumber = 20; //A quantidade de bins resultante serah esse valor +2
+
+d3.select("#finalBin").on("input", function() {
+    finalBinPercent = 100 - this.value;
+    d3.select("#finalPtg").text(this.value);
+    d3.select("#histogram").property("checked", true);
+    dataset.then(plotHistogram);
+});
+
+d3.select("#inicialBin").on("input", function() {
+    inicialBinPercent = 0 + parseInt(this.value);
+    d3.select("#inicialPtg").text(this.value);
+    d3.select("#histogram").property("checked", true);
+    dataset.then(plotHistogram);
+});
+
+d3.select("#qtdBin").on("input", function(){
+    binNumber = parseInt(this.value);
+    d3.select("#qtdBintxt").text(this.value);
+    d3.select("#histogram").property("checked", true);
+    dataset.then(plotHistogram);
+});
 
 function plotHistogram(data){
 
@@ -18,9 +47,9 @@ function plotHistogram(data){
     for(i = 0; i < data.features.length; i++){
         percentil += (1/areas.length) * 100; //Quantos porcento do array foi coberto
 
-        if(percentil >= 80){
+        if(percentil >= finalBinPercent){
             tooMuch.push(areas[i]);
-        }else if(percentil <= 20){
+        }else if(percentil <= inicialBinPercent){
             tooLittle.push(areas[i]);
         }else{
             newAreas.push(areas[i]);
@@ -28,67 +57,55 @@ function plotHistogram(data){
 
     }
 
-    var xScale = d3.scaleLinear()
-        .domain(d3.extent(newAreas)).nice()
-        .range([0, width]);
-
-    var percentilSize = 1;
-    var percentilAdded = 0;
-    var thresholds = [0];
-
-    // for(i = 0; i < newAreas.length; i++){
-    //     percentil += (1/newAreas.length) * 100; //Quantos porcento do array foi coberto
-    //     console.log(percentil);
-    //     if(percentil >= percentilSize || i == newAreas.length - 1){
-    //         percentilAdded += percentil;
-    //         percentil = 0;
-    //         percentilSize += 1;
-    //         thresholds.push(newAreas[i]);
-    //     }
-    // }
-
-    // console.log(percentilAdded);
-    // console.log(thresholds);
-
-    var binNumber = 20;
+    var thresholds_marks = [];
+    var sliceSize = Math.floor((d3.max(newAreas)-d3.min(newAreas))/binNumber); //Tamanho dos bins eh constante
+    for(i = Math.floor(d3.min(newAreas)); i<d3.max(newAreas); i+=sliceSize){
+        thresholds_marks.push(i);
+    }
 
     var bins = d3.histogram()
-                .domain(xScale.domain())
-                .thresholds(xScale.ticks(binNumber))
-                // .thresholds(thresholds)
-            (newAreas);
+                .domain(d3.extent(areas)) //O dominio do histograma compreende 100% das areas
+                .thresholds(thresholds_marks)
+            (areas); //Aplica a funcao em 100% das areas. Porem um bin a mais do estipulado eh
+                     //criado para valores menores que o valor minimo dos thresholds
 
     var yScale = d3.scaleLinear()
         .domain([0, d3.max(bins, d => d.length)]).nice()
-        .range([height, 0]);
+        .range([0, height]);
 
-    console.log(bins);
-
-    var xScaleAll = d3.scaleLinear()
-        .domain(d3.extent(areas)).nice()
-        .range([0, width]);
-
-
-    // svg.selectAll("div")
-    //     .data([{}, {}])
-    //     .enter()
-    //     .append("rect")
-    //         .attr("x", d => xScale(d.x0) + 1)
-    //         // .attr("width", d => Math.max(0, xScale(d.x1) - xScale(d.x0) - 1))
-    //         .attr("width", d => (width/binNumber+2) - 1) //Todos os bin tem o mesmo tamanho
-    //         .attr("y", d => yScale(d.length))
-    //         .attr("height", d => yScale(0) - yScale(d.length));
+    svg.html("");
 
     svg.selectAll("div")
         .data(bins)
         .enter()
         .append("rect")
-            .attr("x", d => xScale(d.x0) + (width/(binNumber+2)))
-            // .attr("width", d => Math.max(0, xScale(d.x1) - xScale(d.x0) - 1))
-            .attr("width", (width/(binNumber+2)) - 15) //Todos os bin tem o mesmo tamanho
-            .attr("y", d => yScale(d.length))
-            .attr("height", d => yScale(0) - yScale(d.length));
+            .attr("x", function(d,i){
+                return i*(width/(binNumber+2)) + 4;
+            })
+            .attr("width", width/(binNumber+2) - 4)
+            .attr("y", function (d) {
+                return 2*height - yScale(d.length);
+            })
+            .attr("height", function (d) {
+                return yScale(d.length);
+            })
+            .attr("fill-opacity", "0.6")
+            .attr("fill", "rgb(150, 86, 86)")
 
+    console.log(bins);
+    
+    svg.selectAll("text")
+        .data(bins)
+        .enter()
+        .append("text")
+            .attr("x", function(d,i){return i*(width/(binNumber+2)) + 1;})
+            .attr("y", function (d) {
+                return 2*height - yScale(d.length) - 5;
+            })
+            .text( function(d) {return d.x0.toFixed(0)+" - "+d.x1.toFixed(0)} )
+            .attr("fill", "rgb(255, 255, 255)")
+            .attr("textLength", width/(binNumber+2) - 5)
+            .attr("lengthAdjust", "spacingAndGlyphs");
 
 }
 

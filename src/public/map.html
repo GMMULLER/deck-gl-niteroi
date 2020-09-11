@@ -42,6 +42,16 @@
             z-index: 1;
         }
 
+        #controlPainel{
+            position: absolute;
+            background: #fff;
+            top: 128px;
+            left: 0;
+            margin: 12px;
+            padding: 20px;
+            z-index: 1;       
+        }
+
         #barchart{
             width: 100vw;
             height: 100vh;
@@ -68,7 +78,21 @@
           <div id="rmdef" ></div>
         </div>
     </div>
-      
+    
+    <div id="controlPainel">
+        <input type="radio" name="chart" id="simpleChart" value="simpleChart">
+        <label for="simpleChart">OBJECTID x Área</label><br>
+        <input type="radio" name="chart" id="histogram" value="histogram">
+        <label for="histogram">Histograma</label><br><br>
+        <input type="range" min="1" max="40" id="finalBin">
+        <label for="finalBin">Percent bin final (<label id="finalPtg">20</label>%)</label><br>
+        <input type="range" min="1" max="40" id="inicialBin">
+        <label for="inicialBin">Percent bin inicial (<label id="inicialPtg">20</label>%)</label><br>
+        <input type="range" min="1" max="40" id="qtdBin">
+        <label for="qtdBin">Qtd intervalos (<label id="qtdBintxt">20</label>)</label><br>
+
+    </div>
+
     <div id="barchart" class="svg-container"></div>
 
     <script src='barChart.js'></script>

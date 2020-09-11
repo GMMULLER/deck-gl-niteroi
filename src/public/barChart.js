@@ -10,7 +10,9 @@ var svg = d3.select("div#barchart").append("svg")
 var barWidth = 10;
 var areas_to_draw = 80;
 
-//dataset.then(plotBarChart); //When the promisse is resolved
+d3.select("input#simpleChart").on("click", function(){
+    dataset.then(plotBarChart);
+});
 
 function plotBarChart(data){
     close_areas = [];//Seleciona 86 terrenos mais proximos do ultimo selecionado
@@ -44,7 +46,6 @@ function plotBarChart(data){
 
     xScale.domain(close_areas.map(function(d){return d.properties.OBJECTID}))
     yScale.domain([0, d3.max(close_areas, function(d) {return d.properties.shape_area_m2} )]);
-    console.log(close_areas);
 
     svg.selectAll("div")
         .data(close_areas)
@@ -59,17 +60,13 @@ function plotBarChart(data){
         })
         .attr("fill-opacity", "0.4")
         .attr("x", function (d) {
-            // return i * (barWidth+1);
             return xScale(d.properties.OBJECTID);
         })
         .attr("y", function (d) {
-            // return height - (d.properties.shape_area_m2/30);
             return 2*height - yScale(d.properties.shape_area_m2);
         })
-        // .attr("width", barWidth)
         .attr("width", xScale.bandwidth())
         .attr("height", function (d) {
-            // return d.properties.shape_area_m2/30;
             return yScale(d.properties.shape_area_m2);
         });
 
@@ -78,14 +75,11 @@ function plotBarChart(data){
         .enter()
         .append("text")
         .attr("x", function (d) {
-            // return i * (barWidth+1);
             return xScale(d.properties.OBJECTID);
         })
         .attr("y", function (d) {
-            // return height - (d.properties.shape_area_m2/30);
             return 2*height - yScale(d.properties.shape_area_m2) - 5;
         })
-        // .attr("width", barWidth)
         .text( function(d) {return d.properties.OBJECTID} )
         .attr("fill", "rgb(255, 255, 255)")
         .attr("textLength", xScale.bandwidth())
