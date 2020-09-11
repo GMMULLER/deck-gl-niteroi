@@ -49,5 +49,6 @@ function getTooltip({object}){
 
 function reloadBarChart(OBJECTID){
   last_objectid_selected = OBJECTID;
+  d3.select("input#simpleChart").property("checked", true);
   dataset.then(plotBarChart);
 }
