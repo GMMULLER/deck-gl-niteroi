@@ -1,7 +1,7 @@
 const {DeckGL, ScatterplotLayer, GeoJsonLayer} = deck;
 
 var dataset = d3.json('https://opendata.arcgis.com/datasets/36e4cfc1af174323b162b0716cc386fe_35.geojson'); //returns a promisse
-var last_objectid_selected = 1;
+var last_objectid_selected = 1; //Ultima area de protecao selecionada para exibicao do grafico
 
 const redeMonitoramentoDefCiv = new GeoJsonLayer({
   id: 'redeMDC',
@@ -40,15 +40,15 @@ const deckgl = new DeckGL({
     redeMonitoramentoDefCiv,
     areaProtPermDec
   ],
-  getTooltip
+  getTooltip //Estabelece um tooltip para todos os objetos das camadas
 });
 
-function getTooltip({object}){
+function getTooltip({object}){ //Define o que sera exebido na tooltip
   return object && `OBJECTID: ${object.properties.OBJECTID}`;
 }
 
-function reloadBarChart(OBJECTID){
+function reloadBarChart(OBJECTID){ //Recarrega o grafico de barras referente as areas de protecao permanente
   last_objectid_selected = OBJECTID;
-  d3.select("input#simpleChart").property("checked", true);
-  dataset.then(plotBarChart);
+  d3.select("input#simpleChart").property("checked", true); //Atualiza os botoes de selecao para serem iguais ao grafico exibido
+  dataset.then(plotBarChart); //Se os dados foram carregados plota o grafico
 }
