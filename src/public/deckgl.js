@@ -1,4 +1,4 @@
-const {DeckGL, ScatterplotLayer, GeoJsonLayer} = deck;
+const {DeckGL, ScatterplotLayer, GeoJsonLayer, TerrainLayer} = deck;
 
 var dataset = d3.json('https://opendata.arcgis.com/datasets/36e4cfc1af174323b162b0716cc386fe_35.geojson'); //returns a promisse
 var last_objectid_selected = 1; //Ultima area de protecao selecionada para exibicao do grafico
@@ -24,6 +24,17 @@ const areaProtPermDec = new GeoJsonLayer({
   onClick: (info, event) => reloadBarChart(info.object.properties.OBJECTID)
 });
 
+const niteroiTerrain = new TerrainLayer({
+  elevationDecoder: {
+    rScaler: 6553.6,
+    gScaler: 25.6,
+    bScaler: 0.1,
+    offset: -10000
+  },
+  elevationData: 'raster-niteroi-terrain.png'
+  // bounds: [-122.5233, 37.6493, -122.3566, 37.8159],
+});
+
 const deckgl = new DeckGL({
   mapboxApiAccessToken: 'pk.eyJ1IjoiZ21tb3JlaXJhIiwiYSI6ImNrZDlnbmJrODBlY2cyc3NnazVscjJwcDgifQ.WNhHLBY6bfT9Ud-uaIQX3w',
   mapStyle: 'mapbox://styles/mapbox/dark-v10',
@@ -37,10 +48,11 @@ const deckgl = new DeckGL({
   },
   controller: true,
   layers: [
-    redeMonitoramentoDefCiv,
-    areaProtPermDec
+    // redeMonitoramentoDefCiv,
+    // areaProtPermDec
+    niteroiTerrain
   ],
-  getTooltip //Estabelece um tooltip para todos os objetos das camadas
+  // getTooltip //Estabelece um tooltip para todos os objetos das camadas
 });
 
 function getTooltip({object}){ //Define o que sera exebido na tooltip
